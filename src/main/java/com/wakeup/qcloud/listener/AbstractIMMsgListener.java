@@ -21,6 +21,7 @@ import com.wakeup.qcloud.domain.ImageMsgContentDO;
 import com.wakeup.qcloud.domain.LocationMsgContentDO;
 import com.wakeup.qcloud.domain.SoundMsgContentDO;
 import com.wakeup.qcloud.domain.TextMsgContentDO;
+import com.wakeup.qcloud.listener.request.C2CCallbackSendMsgReq;
 import com.wakeup.qcloud.listener.request.GroupCallbackMembersNewOrExitReq;
 import com.wakeup.qcloud.listener.request.GroupCallbackMembersNewOrExitReq.NewOrExitMember;
 import com.wakeup.qcloud.listener.request.GroupCallbackSendMsgReq;
@@ -58,7 +59,18 @@ public abstract class AbstractIMMsgListener implements QCloudMsgListener {
 	public IMMsgResponse onGroupAfterAfterMemberExit(GroupCallbackMembersNewOrExitReq msgReq,UrlParamDO urlParams){
 		return new IMMsgResponse();
 	}
-
+	/**
+	 *发单聊消息之前回调 发单聊消息之后回调
+	 */
+	public GroupCallbackBeforeSendMsgResp onC2CBeforeSendMsg(C2CCallbackSendMsgReq msgReq,UrlParamDO urlParams) {
+		return new GroupCallbackBeforeSendMsgResp();
+	}
+	/**
+	 *发单聊消息之后回调
+	 */
+	public GroupCallbackBeforeSendMsgResp onC2CAfterSendMsg(C2CCallbackSendMsgReq msgReq,UrlParamDO urlParams) {
+		return new GroupCallbackBeforeSendMsgResp();
+	}
 	@Override
 	public final QCloudMsgResponse doProcess(String body,Map<String, Object> urlParams, String key) {
 		Object sdkAppid = urlParams.get("SdkAppid");
@@ -80,6 +92,12 @@ public abstract class AbstractIMMsgListener implements QCloudMsgListener {
 		case CallbackCommand.GroupCallbackAfterMemberExit:
 			GroupCallbackMembersNewOrExitReq msgReq4= toGroupCallbackMembersNewOrExitReq(body);
 			return onGroupAfterAfterMemberExit(msgReq4, paramDO);
+		case CallbackCommand.C2CCallbackBeforeSendMsg:
+			C2CCallbackSendMsgReq msgReq5 = toC2CCallbackSendMsgReq(body);
+			return onC2CBeforeSendMsg(msgReq5, paramDO);
+		case CallbackCommand.C2CCallbackAfterSendMsg:
+			C2CCallbackSendMsgReq msgReq6 = toC2CCallbackSendMsgReq(body);
+			return onC2CAfterSendMsg(msgReq6, paramDO);
 		default:
 			break;
 		}
@@ -178,6 +196,77 @@ public abstract class AbstractIMMsgListener implements QCloudMsgListener {
 				break;
 			default:
 				break;
+			}
+		}
+		msgReq.setMsgBody(msgBody);
+		return msgReq;
+	}
+
+	private C2CCallbackSendMsgReq toC2CCallbackSendMsgReq(String body){
+		JSONObject jsonObject = JSON.parseObject(body);
+		C2CCallbackSendMsgReq msgReq = new C2CCallbackSendMsgReq();
+		msgReq.setCallbackCommand(jsonObject.getString("CallbackCommand"));
+		msgReq.setFromAccount(jsonObject.getString("From_Account"));
+		msgReq.setOperatorAccount(jsonObject.getString("Operator_Account"));
+		msgReq.setRandom(jsonObject.getLongValue("Random"));
+
+		JSONArray msgBodyArray= JSON.parseArray(jsonObject.getString("MsgBody"));
+		List<IMMsgBody<? extends IMMsgContentDO>> msgBody = newArrayList();
+		for(Object object : msgBodyArray){
+			JSONObject _body = JSON.parseObject(object.toString());
+			String msgType = _body.getString("MsgType");
+			switch (msgType) {
+				case IMMsgType.TIMTextElem:
+					IMMsgBody<TextMsgContentDO> imMsgBody = JSON.parseObject(
+							object.toString(),
+							new TypeReference<IMMsgBody<TextMsgContentDO>>() {
+							});
+					msgBody.add(imMsgBody);
+					break;
+				case IMMsgType.TIMFaceElem:
+					IMMsgBody<FaceMsgContentDO> imMsgBody2 = JSON.parseObject(
+							object.toString(),
+							new TypeReference<IMMsgBody<FaceMsgContentDO>>() {
+							});
+					msgBody.add(imMsgBody2);
+					break;
+				case IMMsgType.TIMCustomElem:
+					IMMsgBody<CustomMsgContentDO> imMsgBody3 = JSON.parseObject(
+							object.toString(),
+							new TypeReference<IMMsgBody<CustomMsgContentDO>>() {
+							});
+					msgBody.add(imMsgBody3);
+					break;
+				case IMMsgType.TIMLocationElem:
+					IMMsgBody<LocationMsgContentDO> imMsgBody4 = JSON.parseObject(
+							object.toString(),
+							new TypeReference<IMMsgBody<LocationMsgContentDO>>() {
+							});
+					msgBody.add(imMsgBody4);
+					break;
+				case IMMsgType.TIMFileElem:
+					IMMsgBody<FileMsgContentDO> imMsgBody5 = JSON.parseObject(
+							object.toString(),
+							new TypeReference<IMMsgBody<FileMsgContentDO>>() {
+							});
+					msgBody.add(imMsgBody5);
+					break;
+				case IMMsgType.TIMImageElem:
+					IMMsgBody<ImageMsgContentDO> imMsgBody6 = JSON.parseObject(
+							object.toString(),
+							new TypeReference<IMMsgBody<ImageMsgContentDO>>() {
+							});
+					msgBody.add(imMsgBody6);
+					break;
+				case IMMsgType.TIMSoundElem:
+					IMMsgBody<SoundMsgContentDO> imMsgBody7 = JSON.parseObject(
+							object.toString(),
+							new TypeReference<IMMsgBody<SoundMsgContentDO>>() {
+							});
+					msgBody.add(imMsgBody7);
+					break;
+				default:
+					break;
 			}
 		}
 		msgReq.setMsgBody(msgBody);
