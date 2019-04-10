@@ -16,9 +16,18 @@ public class C2CCallbackSendMsgReq extends BaseDO {
 	private String callbackCommand;
 	private String fromAccount;
 	private String operatorAccount;
+	private String toAccount;
 	private long random;
 	private List<IMMsgBody<? extends IMMsgContentDO>> msgBody;
 	
+
+	public String getToAccount() {
+		return toAccount;
+	}
+
+	public void setToAccount(String toAccount) {
+		this.toAccount = toAccount;
+	}
 
 	public String getCallbackCommand() {
 		return callbackCommand;

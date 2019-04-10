@@ -207,8 +207,8 @@ public abstract class AbstractIMMsgListener implements QCloudMsgListener {
 		C2CCallbackSendMsgReq msgReq = new C2CCallbackSendMsgReq();
 		msgReq.setCallbackCommand(jsonObject.getString("CallbackCommand"));
 		msgReq.setFromAccount(jsonObject.getString("From_Account"));
-		msgReq.setOperatorAccount(jsonObject.getString("Operator_Account"));
-		msgReq.setRandom(jsonObject.getLongValue("Random"));
+		msgReq.setToAccount(jsonObject.getString("To_Account"));
+		msgReq.setRandom(jsonObject.getLongValue("MsgRandom"));
 
 		JSONArray msgBodyArray= JSON.parseArray(jsonObject.getString("MsgBody"));
 		List<IMMsgBody<? extends IMMsgContentDO>> msgBody = newArrayList();
