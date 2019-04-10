@@ -23,4 +23,14 @@ public class CallbackCommand {
 	 * 群成员离开之后回调
 	 */
 	public final static String GroupCallbackAfterMemberExit = "Group.CallbackAfterMemberExit";
+
+	/**
+	 *发单聊消息之前回调
+	 */
+	public final static String C2CCallbackBeforeSendMsg="C2C.CallbackBeforeSendMsg";
+
+	/**
+	 *发单聊消息之后回调
+	 */
+	public final static String C2CCallbackAfterSendMsg="C2C.CallbackAfterSendMsg";
 }
