@@ -25,6 +25,7 @@ import com.wakeup.qcloud.listener.request.C2CCallbackSendMsgReq;
 import com.wakeup.qcloud.listener.request.GroupCallbackMembersNewOrExitReq;
 import com.wakeup.qcloud.listener.request.GroupCallbackMembersNewOrExitReq.NewOrExitMember;
 import com.wakeup.qcloud.listener.request.GroupCallbackSendMsgReq;
+import com.wakeup.qcloud.listener.response.C2CCallbackBeforeSendMsgResp;
 import com.wakeup.qcloud.listener.response.GroupCallbackBeforeSendMsgResp;
 
 /**
@@ -62,14 +63,14 @@ public abstract class AbstractIMMsgListener implements QCloudMsgListener {
 	/**
 	 *发单聊消息之前回调 发单聊消息之后回调
 	 */
-	public GroupCallbackBeforeSendMsgResp onC2CBeforeSendMsg(C2CCallbackSendMsgReq msgReq,UrlParamDO urlParams) {
-		return new GroupCallbackBeforeSendMsgResp();
+	public C2CCallbackBeforeSendMsgResp onC2CBeforeSendMsg(C2CCallbackSendMsgReq msgReq,UrlParamDO urlParams) {
+		return new C2CCallbackBeforeSendMsgResp();
 	}
 	/**
 	 *发单聊消息之后回调
 	 */
-	public GroupCallbackBeforeSendMsgResp onC2CAfterSendMsg(C2CCallbackSendMsgReq msgReq,UrlParamDO urlParams) {
-		return new GroupCallbackBeforeSendMsgResp();
+	public C2CCallbackBeforeSendMsgResp onC2CAfterSendMsg(C2CCallbackSendMsgReq msgReq,UrlParamDO urlParams) {
+		return new C2CCallbackBeforeSendMsgResp();
 	}
 	@Override
 	public final QCloudMsgResponse doProcess(String body,Map<String, Object> urlParams, String key) {
