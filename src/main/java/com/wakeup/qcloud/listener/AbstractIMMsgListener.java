@@ -22,6 +22,7 @@ import com.wakeup.qcloud.domain.LocationMsgContentDO;
 import com.wakeup.qcloud.domain.SoundMsgContentDO;
 import com.wakeup.qcloud.domain.TextMsgContentDO;
 import com.wakeup.qcloud.listener.request.C2CCallbackSendMsgReq;
+import com.wakeup.qcloud.listener.request.CallbackStateChangeReq;
 import com.wakeup.qcloud.listener.request.GroupCallbackMembersNewOrExitReq;
 import com.wakeup.qcloud.listener.request.GroupCallbackMembersNewOrExitReq.NewOrExitMember;
 import com.wakeup.qcloud.listener.request.GroupCallbackSendMsgReq;
@@ -72,6 +73,13 @@ public abstract class AbstractIMMsgListener implements QCloudMsgListener {
 	public C2CCallbackBeforeSendMsgResp onC2CAfterSendMsg(C2CCallbackSendMsgReq msgReq,UrlParamDO urlParams) {
 		return new C2CCallbackBeforeSendMsgResp();
 	}
+	/**
+	 *状态变更回调
+	 */
+	public IMMsgResponse onCallbackStateChangeReq(CallbackStateChangeReq msgReq, UrlParamDO urlParams) {
+		return new IMMsgResponse();
+	}
+
 	@Override
 	public final QCloudMsgResponse doProcess(String body,Map<String, Object> urlParams, String key) {
 		Object sdkAppid = urlParams.get("SdkAppid");
@@ -99,6 +107,9 @@ public abstract class AbstractIMMsgListener implements QCloudMsgListener {
 		case CallbackCommand.C2CCallbackAfterSendMsg:
 			C2CCallbackSendMsgReq msgReq6 = toC2CCallbackSendMsgReq(body);
 			return onC2CAfterSendMsg(msgReq6, paramDO);
+		case CallbackCommand.CallbackStateChange:
+			CallbackStateChangeReq msgReq7 = toCallbackStateChangeReq(body);
+			return onCallbackStateChangeReq(msgReq7, paramDO);
 		default:
 			break;
 		}
@@ -272,6 +283,17 @@ public abstract class AbstractIMMsgListener implements QCloudMsgListener {
 			}
 		}
 		msgReq.setMsgBody(msgBody);
+		return msgReq;
+	}
+
+
+
+	//{"CallbackCommand":"State.StateChange","Info":{"To_Account":"100000017","Action":"Login","Reason":"Register"}}
+	private CallbackStateChangeReq toCallbackStateChangeReq(String body){
+		JSONObject jsonObject = JSON.parseObject(body);
+		CallbackStateChangeReq msgReq = new CallbackStateChangeReq();
+		msgReq.setCallbackCommand(jsonObject.getString("CallbackCommand"));
+		msgReq.setInfo(jsonObject.getString("Info"));
 		return msgReq;
 	}
 }

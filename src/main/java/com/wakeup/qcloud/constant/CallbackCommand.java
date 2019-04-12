@@ -33,4 +33,9 @@ public class CallbackCommand {
 	 *发单聊消息之后回调
 	 */
 	public final static String C2CCallbackAfterSendMsg="C2C.CallbackAfterSendMsg";
+
+	/**
+	 *状态变更回调
+	 */
+	public final static String CallbackStateChange="State.StateChange";
 }

@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
+import com.wakeup.qcloud.listener.*;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
@@ -36,10 +37,6 @@ import com.wakeup.qcloud.domain.MixStreamBody;
 import com.wakeup.qcloud.domain.MixStreamDO;
 import com.wakeup.qcloud.domain.MixStreamResponse;
 import com.wakeup.qcloud.domain.MixStreamBody.Interface;
-import com.wakeup.qcloud.listener.AbstractIMMsgListener;
-import com.wakeup.qcloud.listener.AbstractLiveMsgListener;
-import com.wakeup.qcloud.listener.QCloudMsgListener;
-import com.wakeup.qcloud.listener.QCloudMsgResponse;
 import com.wakeup.qcloud.utils.Base64Url;
 import com.wakeup.qcloud.utils.HttpClientUtil;
 import com.wakeup.qcloud.utils.RandomUtil;
@@ -146,6 +143,8 @@ public class DefaultQCloudClient implements QCloudClient {
 	public QCloudMsgResponse doMsgProcess(QCloudMsgListener msgListener,String body,Map<String,Object> urlParams) throws QCloudException {
 		if(msgListener instanceof AbstractLiveMsgListener){
 			return msgListener.doProcess(body,urlParams, liveConfig.getKey());
+		}else if(msgListener instanceof AbstractIMMsgListener){
+			return msgListener.doProcess(body,urlParams, imConfig.getSdkAppId());
 		}else if(msgListener instanceof AbstractIMMsgListener){
 			return msgListener.doProcess(body,urlParams, imConfig.getSdkAppId());
 		}
