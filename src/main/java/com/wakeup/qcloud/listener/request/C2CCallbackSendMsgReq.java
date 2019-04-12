@@ -1,5 +1,6 @@
 package com.wakeup.qcloud.listener.request;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.wakeup.qcloud.domain.BaseDO;
 import com.wakeup.qcloud.domain.IMMsgBody;
 import com.wakeup.qcloud.domain.IMMsgContentDO;
@@ -18,6 +19,8 @@ public class C2CCallbackSendMsgReq extends BaseDO {
 	private String operatorAccount;
 	private String toAccount;
 	private long random;
+	private long msgRandom;//消息id
+	private long msgTime;
 	private List<IMMsgBody<? extends IMMsgContentDO>> msgBody;
 	
 
@@ -68,6 +71,20 @@ public class C2CCallbackSendMsgReq extends BaseDO {
 	public void setMsgBody(List<IMMsgBody<? extends IMMsgContentDO>> msgBody) {
 		this.msgBody = msgBody;
 	}
-	
 
+	public long getMsgRandom() {
+		return msgRandom;
+	}
+
+	public void setMsgRandom(long msgRandom) {
+		this.msgRandom = msgRandom;
+	}
+
+	public long getMsgTime() {
+		return msgTime;
+	}
+
+	public void setMsgTime(long msgTime) {
+		this.msgTime = msgTime;
+	}
 }
