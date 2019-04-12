@@ -13,8 +13,11 @@ public class IMMsgBody<T extends IMMsgContentDO> {
 	
 	@JSONField(name = "MsgType")
 	private String msgType;
-	private Integer MsgRandom;//消息id
-	private Integer MsgTime;
+
+	@JSONField(name = "MsgRandom")
+	private Integer msgRandom;//消息id
+	@JSONField(name = "MsgTime")
+	private Integer msgTime;
 
 	public T getMsgContent() {
 		return msgContent;
@@ -33,18 +36,18 @@ public class IMMsgBody<T extends IMMsgContentDO> {
 	}
 
 	public Integer getMsgRandom() {
-		return MsgRandom;
+		return msgRandom;
 	}
 
 	public void setMsgRandom(Integer msgRandom) {
-		MsgRandom = msgRandom;
+		this.msgRandom = msgRandom;
 	}
 
 	public Integer getMsgTime() {
-		return MsgTime;
+		return msgTime;
 	}
 
 	public void setMsgTime(Integer msgTime) {
-		MsgTime = msgTime;
+		this.msgTime = msgTime;
 	}
 }
