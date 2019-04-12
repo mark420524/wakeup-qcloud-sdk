@@ -3,40 +3,40 @@ package com.wakeup.qcloud.domain;
 import com.alibaba.fastjson.annotation.JSONField;
 
 /**
- * Created by chenglin on 2019/4/12.
+ * @since 2017年2月21日
+ * @author kalman03
  */
 public class StateChangeDO extends BaseDO{
 
 	private static final long serialVersionUID = -4315438742179365709L;
 	@JSONField(name="To_Account")
-	private String toAccount;
+	private String To_Account;
 	@JSONField(name="Action")
-	private String action;
+	private String Action;
 	@JSONField(name="Reason")
-	private String reason;
+	private String Reason;
 
-
-	public String getToAccount() {
-		return toAccount;
+	public String getTo_Account() {
+		return To_Account;
 	}
 
-	public void setToAccount(String toAccount) {
-		this.toAccount = toAccount;
+	public void setTo_Account(String to_Account) {
+		To_Account = to_Account;
 	}
 
 	public String getAction() {
-		return action;
+		return Action;
 	}
 
 	public void setAction(String action) {
-		this.action = action;
+		Action = action;
 	}
 
 	public String getReason() {
-		return reason;
+		return Reason;
 	}
 
 	public void setReason(String reason) {
-		this.reason = reason;
+		Reason = reason;
 	}
 }
