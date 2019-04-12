@@ -18,6 +18,8 @@ public class TextMsgContentDO extends IMMsgContentDO {
 	 */
 	@JSONField(name = "Text")
 	private String text;
+	private Integer MsgRandom;//消息id
+	private Integer MsgTime;
 
 	@Override
 	public String getMsgType() {
@@ -32,4 +34,19 @@ public class TextMsgContentDO extends IMMsgContentDO {
 		this.text = text;
 	}
 
+	public Integer getMsgRandom() {
+		return MsgRandom;
+	}
+
+	public void setMsgRandom(Integer msgRandom) {
+		MsgRandom = msgRandom;
+	}
+
+	public Integer getMsgTime() {
+		return MsgTime;
+	}
+
+	public void setMsgTime(Integer msgTime) {
+		MsgTime = msgTime;
+	}
 }
