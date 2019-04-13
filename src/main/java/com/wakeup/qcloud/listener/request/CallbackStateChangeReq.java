@@ -1,10 +1,6 @@
 package com.wakeup.qcloud.listener.request;
 
 import com.wakeup.qcloud.domain.BaseDO;
-import com.wakeup.qcloud.domain.IMMsgBody;
-import com.wakeup.qcloud.domain.IMMsgContentDO;
-
-import java.util.List;
 
 /**
  * Created by chenglin on 2019/4/12.
